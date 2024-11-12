@@ -1,0 +1,106 @@
+<div class="mx-auto px-4 py-4 sm:px-8 lg:container">
+  <!-- Header -->
+  <div class="mb-4 flex justify-between">
+    <div class="inline-block">
+      <h3 class="font-semibold text-foreground">Médicos</h3>
+      <div class="space-x-1 text-xs font-medium">
+        <span href="" class="text-muted-foreground">Total: </span>
+        <span href="" class="text-foreground">{{ medics?.length || 0 }}</span>
+      </div>
+    </div>
+    <div>
+      <button
+        class="bg-primary px-3 py-2 rounded-md text-primary-foreground text-sm font-semibold"
+        (click)="openCreateDoctortModal()"
+      >
+        Agregar médico
+      </button>
+    </div>
+  </div>
+  <app-create-doctor-modal
+    *ngIf="showModal"
+    (closeModal)="closeCreateDoctortModal()"
+    (patientCreated)="addDoctort($event)"
+  ></app-create-doctor-modal>
+  <!-- end Header -->
+
+  <div
+    class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4"
+  >
+    <!-- Auctions Table -->
+    <div class="md:col-span-3 xl:col-span-4">
+      <div class="flex-col rounded-lg bg-background px-8 py-8 sm:flex-row">
+        <div class="mb-4 flex items-center justify-between">
+          <!-- <div class="flex flex-row items-center"> -->
+          <!-- <h3 class="text-md font-bold text-foreground">Usuarios</h3> -->
+          <!-- </div> -->
+          <div class="flex">
+            <label class="relative text-muted-foreground min-w-72">
+              <div class="absolute left-2.5 top-2.5">
+                <svg-icon
+                  src="assets/icons/heroicons/outline/magnifying-glass.svg"
+                  [svgClass]="'h-4 w-4'"
+                >
+                </svg-icon>
+                <!-- <svg-icon src="assets/icons/logo.svg"> </svg-icon> -->
+              </div>
+              <input
+                name="search"
+                class="py-2 pl-8 pr-2"
+                placeholder="Buscar médicos"
+                type="text"
+                value=""
+                (input)="onSearchChange($event)"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div class="relative overflow-x-auto">
+          <table class="w-full table-auto">
+            <!--Table head-->
+            <thead class="text-xs uppercase text-foreground">
+              <tr>
+                <th class="py-3 text-left">Nombre</th>
+                <th class="py-3 text-left">Licencia</th>
+                <th class="py-3 text-left">Teléfono</th>
+                <th class="py-3 text-left">Especialidad</th>
+              </tr>
+            </thead>
+            <!--end Table head-->
+            <!--Table body-->
+            <tbody>
+              <tr
+                *ngFor="let item of medics"
+                users-table-item
+                class="border-b border-dashed border-border hover:bg-card"
+              >
+                <td class="py-2 pl-2 text-left">
+                  <span class="text-sm text-muted-foreground">{{
+                    item.user.name
+                  }}</span>
+                </td>
+                <td class="py-2 pl-2 text-left">
+                  <span class="text-sm text-muted-foreground">{{
+                    item.licenseNumber
+                  }}</span>
+                </td>
+                <td class="py-2 pl-2 text-left">
+                  <span class="text-sm text-muted-foreground"
+                    >{{ item.user.phone }}
+                  </span>
+                </td>
+                <td class="py-2 pl-2 text-left">
+                  <span class="text-sm text-muted-foreground"
+                    >{{ item.specialties.name }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+            <!--end::Table body-->
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

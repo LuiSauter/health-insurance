@@ -1,0 +1,54 @@
+<div class="flex-col rounded-lg bg-background px-8 py-8 sm:flex-row">
+  <div class="mb-4 flex items-center justify-between">
+    <!-- <div class="flex flex-row items-center"> -->
+    <!-- <h3 class="text-md font-bold text-foreground">Usuarios</h3> -->
+    <!-- </div> -->
+    <div class="flex">
+      <label class="relative text-muted-foreground min-w-72">
+        <div class="absolute left-2.5 top-2.5">
+          <svg-icon
+            src="assets/icons/heroicons/outline/magnifying-glass.svg"
+            [svgClass]="'h-4 w-4'"
+          >
+          </svg-icon>
+          <!-- <svg-icon src="assets/icons/logo.svg"> </svg-icon> -->
+        </div>
+        <input
+          name="search"
+          class="py-2 pl-8 pr-2"
+          placeholder="Buscar usuarios"
+          type="text"
+          value=""
+          (input)="onSearchChange($event)"
+        />
+      </label>
+    </div>
+  </div>
+
+  <div class="relative overflow-x-auto">
+    <table class="w-full table-auto">
+      <!--Table head-->
+      <thead class="text-xs uppercase text-foreground">
+        <tr>
+          <th class="py-3 text-left">Nombre</th>
+          <th class="py-3 text-left">Email</th>
+          <th class="py-3 text-left">Celular</th>
+          <th class="py-3 text-left">Rol</th>
+          <th class="py-3 text-left">Ocupación</th>
+          <th class="py-3 text-left">Sucursal</th>
+        </tr>
+      </thead>
+      <!--end Table head-->
+      <!--Table body-->
+      <tbody>
+        <tr
+          *ngFor="let user of users"
+          [auction]="user"
+          users-table-item
+          class="border-b border-dashed border-border hover:bg-card"
+        ></tr>
+      </tbody>
+      <!--end::Table body-->
+    </table>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+{
+  "exportall.config.relExclusion": [
+    "/src/app/modules/users/interfaces/index.ts"
+  ]
+}
