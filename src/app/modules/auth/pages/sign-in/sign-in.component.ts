@@ -5,6 +5,8 @@ import { NgClass, NgIf } from '@angular/common';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { AuthService } from '../../services/auth.service';
+import { Store } from '@ngxs/store';
+import { SetUser } from '../../../../state/global';
 
 @Component({
   selector: 'app-sign-in',
@@ -23,7 +25,8 @@ export class SignInComponent implements OnInit {
   constructor(
     private readonly _formBuilder: FormBuilder,
     private readonly _router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store
   ) { }
 
   onClick() {
@@ -67,6 +70,7 @@ export class SignInComponent implements OnInit {
         }
         localStorage.setItem('token', resp.data.accessToken);
         localStorage.setItem('user', JSON.stringify(resp.data.user));
+        this.store.dispatch(new SetUser(resp.data.user));
         this._router.navigate(['dashboard']);
       },
       (err) => {

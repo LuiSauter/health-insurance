@@ -52,6 +52,10 @@ export class Menu {
             {
               label: 'Pacientes',
               route: '/clinica/pacientes',
+            },
+            {
+              label: 'Formularios',
+              route: '/clinica/formularios',
             }
           ]
         },
@@ -61,24 +65,20 @@ export class Menu {
           route: '/consultas',
           children: [
             {
-              label: 'Fichas',
-              route: '/fichas',
-            },
-            {
-              label: 'Citas',
-              route: '/citas',
-            },
-            {
               label: 'Consultas',
               route: '/consultas',
             },
             {
+              label: 'Citas',
+              route: '/consultas/citas',
+            },
+            {
               label: 'Recetas',
-              route: '/recetas',
+              route: '/consultas/recetas',
             },
             {
               label: 'Exámenes',
-              route: '/examenes',
+              route: '/consultas/examenes',
             }
           ]
         },

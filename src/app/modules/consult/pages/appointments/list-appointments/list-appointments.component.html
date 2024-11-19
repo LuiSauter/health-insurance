@@ -1,0 +1,130 @@
+<div class="mx-auto px-4 py-4 sm:px-8 lg:container">
+  <!-- Header -->
+  <div class="mb-4 flex justify-between">
+    <div>
+      <h3 class="font-semibold text-foreground">Citas</h3>
+      <div class="space-x-1 text-xs font-medium">
+        <span class="text-muted-foreground">Total: </span>
+        <span class="text-foreground">{{ appointments?.length || 0 }}</span>
+      </div>
+    </div>
+    <div>
+      <button
+        class="bg-primary px-3 py-2 rounded-md text-primary-foreground text-sm font-semibold"
+        (click)="openCreateAppointmentModal()"
+      >
+        Agregar Cita
+      </button>
+    </div>
+  </div>
+  <!-- Modal -->
+  <app-create-appointment-modal
+    *ngIf="showModal"
+    [appointment]="appointment"
+    (closeModal)="closeCreateAppointmentModal()"
+    (appointmentCreated)="addAppointment($event)"
+  ></app-create-appointment-modal>
+  <!-- End Header -->
+
+  <div
+    class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4"
+  >
+    <!-- Appointments Table -->
+    <div class="md:col-span-3 xl:col-span-4">
+      <div class="flex-col rounded-lg bg-background px-8 py-8 sm:flex-row">
+        <div class="mb-4 flex items-center justify-between">
+          <div class="flex">
+            <label class="relative text-muted-foreground min-w-72">
+              <div class="absolute left-2.5 top-2.5">
+                <svg-icon
+                  src="assets/icons/heroicons/outline/magnifying-glass.svg"
+                  [svgClass]="'h-4 w-4'"
+                ></svg-icon>
+              </div>
+              <input
+                name="search"
+                class="py-2 pl-8 pr-2"
+                placeholder="Buscar citas"
+                type="text"
+                value=""
+                (input)="onSearchChange($event)"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div class="relative overflow-x-auto">
+          <table class="w-full table-auto">
+            <!-- Table Head -->
+            <thead class="text-xs uppercase text-foreground">
+              <tr>
+                <th class="py-3 text-left">Paciente</th>
+                <th class="py-3 text-left">Teléfono</th>
+                <th class="py-3 text-left">Médico</th>
+                <th class="py-3 text-left">Especialidad</th>
+                <th class="py-3 text-left">Fecha</th>
+                <th class="py-3 text-left">Estado</th>
+                <th class="py-3 text-left">Acciones</th>
+              </tr>
+            </thead>
+            <!-- End Table Head -->
+            <!-- Table Body -->
+            <tbody>
+              <tr
+                *ngFor="let appointment of appointments"
+                class="border-b border-dashed border-border hover:bg-card"
+              >
+                <td class="py-2 pl-2 text-left">
+                  <span class="text-sm text-muted-foreground">
+                    {{ appointment.patient.name }}
+                  </span>
+                </td>
+                <td class="py-2 pl-2 text-left">
+                  <span class="text-sm text-muted-foreground">
+                    {{ appointment.patient.phone }}
+                  </span>
+                </td>
+                <td class="py-2 pl-2 text-left">
+                  <span class="text-sm text-muted-foreground">
+                    {{ appointment.doctor.user.name }}
+                  </span>
+                </td>
+                <td class="py-2 pl-2 text-left">
+                  <span class="text-sm text-muted-foreground">
+                    {{ appointment.doctor.specialties.name }}
+                  </span>
+                </td>
+                <td class="py-2 pl-2 text-left whitespace-nowrap">
+                  <span class="text-sm text-muted-foreground whitespace-nowrap">
+                    {{ formatAppointmentDate(appointment.appointmentDate) }}
+                  </span>
+                </td>
+                <td class="py-2 pl-2 text-left">
+                  <span class="text-sm text-muted-foreground">
+                    {{ appointment.status }}
+                  </span>
+                </td>
+                <td class="py-2 pl-2 text-left">
+                  <!-- <button
+                    class="text-primary hover:underline"
+                    (click)="onEdit(appointment)"
+                  >
+                    Ver
+                  </button> -->
+                  <!-- navigate to /consultas/citas/:id -->
+                  <a
+                    class="text-primary hover:underline"
+                    [routerLink]="['/consultas/citas', appointment.id]"
+                  >
+                    Ver
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+            <!-- End Table Body -->
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

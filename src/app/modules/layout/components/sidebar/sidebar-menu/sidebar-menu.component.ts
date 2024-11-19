@@ -5,6 +5,10 @@ import { SidebarSubmenuComponent } from '../sidebar-submenu/sidebar-submenu.comp
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NgFor, NgClass, NgTemplateOutlet, NgIf } from '@angular/common';
+// import { Store } from '@ngxs/store';
+// import { Observable } from 'rxjs';
+import { IUser } from '../../../../users/interfaces';
+// import { GlobalState } from '../../../../../state/global';
 
 @Component({
     selector: 'app-sidebar-menu',
@@ -24,7 +28,15 @@ import { NgFor, NgClass, NgTemplateOutlet, NgIf } from '@angular/common';
     ],
 })
 export class SidebarMenuComponent implements OnInit {
-  constructor(public menuService: MenuService) {}
+  user: IUser | null | undefined;
+
+
+  constructor(
+    public menuService: MenuService,
+    // private store: Store
+  ) {
+    // this.store.select(GlobalState.getUser).subscribe(user => this.user = user);
+  }
 
   public toggleMenu(subMenu: SubMenuItem) {
     this.menuService.toggleMenu(subMenu);

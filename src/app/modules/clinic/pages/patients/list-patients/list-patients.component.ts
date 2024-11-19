@@ -20,7 +20,7 @@ export class ListPatientsComponent {
   constructor(private patientService: PatientService) { }
 
   ngOnInit(): void {
-    this.patientService.getAllPatients().subscribe((patients) => {
+    this.patientService.getAll().subscribe((patients) => {
       this.patiens = patients.data;
     });
   }

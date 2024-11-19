@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { UsersRoutingModule } from './users-routing.module';
 
-
 @NgModule({
   declarations: [],
   imports: [

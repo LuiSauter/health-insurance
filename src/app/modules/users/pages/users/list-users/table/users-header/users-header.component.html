@@ -6,4 +6,18 @@
       <span href="" class="text-foreground">{{ count }}</span>
     </div>
   </div>
+
+  <div>
+    <button
+      class="bg-primary px-3 py-2 rounded-md text-primary-foreground text-sm font-semibold"
+      (click)="openCreateModal()"
+    >
+      Agregar
+    </button>
+  </div>
 </div>
+
+<app-user-modal
+  *ngIf="showModal"
+  (closeModal)="closeCreateModal()"
+></app-user-modal>

@@ -19,8 +19,9 @@
   </div>
   <app-create-doctor-modal
     *ngIf="showModal"
+    [doctor]="medic"
     (closeModal)="closeCreateDoctortModal()"
-    (patientCreated)="addDoctort($event)"
+    (doctorCreated)="addDoctor($event)"
   ></app-create-doctor-modal>
   <!-- end Header -->
 
@@ -65,6 +66,7 @@
                 <th class="py-3 text-left">Licencia</th>
                 <th class="py-3 text-left">Teléfono</th>
                 <th class="py-3 text-left">Especialidad</th>
+                <th class="py-3 text-left">Acciones</th>
               </tr>
             </thead>
             <!--end Table head-->
@@ -94,6 +96,14 @@
                   <span class="text-sm text-muted-foreground"
                     >{{ item.specialties.name }}
                   </span>
+                </td>
+                <td class="py-2 pl-2 text-left">
+                  <button
+                    class="text-primary hover:underline"
+                    (click)="onEdit(item)"
+                  >
+                    Editar
+                  </button>
                 </td>
               </tr>
             </tbody>

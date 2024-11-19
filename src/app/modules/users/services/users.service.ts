@@ -1,44 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, of } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { ICreateUser, IUser } from '../interfaces';
+import { IBranch, IUser } from '../interfaces';
+import { ApiService } from '../../../core/services/api.service';
+import { IRole } from '../interfaces/role.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
+  useFactory: (http: HttpClient) => new ApiService(http, 'users'),
+  deps: [HttpClient],
 })
-export class UsersService {
+export class UsersService extends ApiService<IUser> {}
 
-  private baseUrl: string = environment.baseUrl + '/users';
+@Injectable({
+  providedIn: 'root',
+  useFactory: (http: HttpClient) => new ApiService(http, 'roles'),
+  deps: [HttpClient],
+})
+export class RolesService extends ApiService<IRole> {}
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
-  getAllUsers(): Observable<ApiResponse<IUser[]>> {
-    return this.http.get<ApiResponse<IUser[]>>(`${this.baseUrl}`);
-  }
-
-  getUser(id: string): Observable<ApiResponse<IUser> | null> {
-    return this.http.get<ApiResponse<IUser>>(`${this.baseUrl}/${id}`).
-      pipe(
-        catchError(err => of(null))
-      );
-  }
-
-  createUser(user: ICreateUser): Observable<ApiResponse<IUser>> {
-    return this.http.post<ApiResponse<IUser>>(`${this.baseUrl}`, user);
-  }
-
-  updateUser(userId: string, data: any): Observable<ApiResponse<IUser>> {
-    return this.http.patch<ApiResponse<IUser>>(`${this.baseUrl}/${userId}`, data);
-  }
-
-  deleteUser(id: string): Observable<boolean> {
-    return this.http.delete(`${this.baseUrl}/${id}`).
-      pipe(
-        map(() => true),
-        catchError(err => of(false)),
-      );
-  }
-}
+@Injectable({
+  providedIn: 'root',
+  useFactory: (http: HttpClient) => new ApiService(http, 'branch'),
+  deps: [HttpClient],
+})
+export class BranchService extends ApiService<IBranch> {}

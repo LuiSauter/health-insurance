@@ -15,11 +15,12 @@ import { CreateDoctorModalComponent } from "../create-doctor-modal/create-doctor
 export class ListMedicsComponent {
   public medics?: Array<Doctor> | null = null;
   public showModal = false;
+  public medic: Doctor = <Doctor>{};
 
   constructor(private medicService: MedicService) { }
 
   ngOnInit(): void {
-    this.medicService.getAllDoctor().subscribe((medics) => {
+    this.medicService.getAll().subscribe((medics) => {
       this.medics = medics.data;
     });
   }
@@ -28,18 +29,28 @@ export class ListMedicsComponent {
     const input = value.target as HTMLInputElement;
   }
 
+  onEdit(item: Doctor) {
+    this.medic = item;
+    this.showModal = true;
+  }
+
   openCreateDoctortModal() {
-    console.log('openCreateDoctortModal');
     this.showModal = true;
   }
 
   closeCreateDoctortModal() {
     this.showModal = false;
+    this.medic = {} as Doctor;
   }
 
-  addDoctort(Doctort: any) {
+  addDoctor(item: Doctor) {
     if (this.medics) {
-      this.medics.push(Doctort);
+      if (item.createdAt) {
+        const index = this.medics.findIndex((r) => r.id === item.id);
+        this.medics[index] = item;
+      } else {
+        this.medics.push(item);
+      }
     }
   }
 }

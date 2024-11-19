@@ -23,3 +23,11 @@ export interface ICreateUser {
   roleId: string,
   branchId: string
 }
+
+export interface IBranch extends ApiBase {
+  name: string,
+  address: string,
+  phone: string,
+  email: string,
+  active: true
+}

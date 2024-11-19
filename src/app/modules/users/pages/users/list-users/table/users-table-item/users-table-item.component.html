@@ -2,19 +2,35 @@
   <span class="text-sm text-muted-foreground">{{ auction.name }}</span>
 </td>
 <td class="py-2 pl-2 text-left">
-  <span class="text-sm text-muted-foreground">{{ auction.email }} </span>
+  <span class="text-sm text-muted-foreground">{{ auction.email }}</span>
 </td>
 <td class="py-2 pl-2 text-left">
-  <span class="text-sm text-muted-foreground">{{ auction.phone }} </span>
+  <span class="text-sm text-muted-foreground">{{ auction.phone }}</span>
 </td>
 <td class="py-2 pl-2 text-left">
-  <span class="text-sm text-muted-foreground">{{ auction.role.name }} </span>
+  <span class="text-sm text-muted-foreground">{{ auction.role.name }}</span>
 </td>
 <td class="py-2 pl-2 text-left">
-  <span class="text-sm text-muted-foreground"
-    >{{ auction.doctor ? "Médico" : "-" }}
-  </span>
+  <span class="text-sm text-muted-foreground">{{
+    auction.doctor ? "Médico" : "-"
+  }}</span>
 </td>
 <td class="py-2 pl-2 text-left">
-  <span class="text-sm text-muted-foreground">{{ auction.branch.name }} </span>
+  <span class="text-sm text-muted-foreground">{{ auction.branch.name }}</span>
 </td>
+
+<!-- Dropdown Column -->
+<td class="py-2 pl-2 text-left z-50">
+  <button
+    (click)="onEdit(auction)"
+    class="px-2 py-1 bg-muted text-muted-foreground rounded-md hover:bg-muted-foreground hover:text-background"
+  >
+    Editar
+  </button>
+</td>
+
+<app-user-modal
+  *ngIf="showModal"
+  [user]="user"
+  (closeModal)="closeCreateModal()"
+></app-user-modal>

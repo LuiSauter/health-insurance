@@ -1,0 +1,118 @@
+<div
+  class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 overflow-hidden"
+>
+  <div
+    class="scrollbar-thumb-rounded scrollbar-track-rounded scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted bg-background rounded-lg shadow-lg w-full max-w-[90vw] p-6 overflow-y-auto max-h-[90vh] animate-fade-in-up"
+  >
+    <div class="flex justify-between items-center border-b pb-3 border-border">
+      <h3 class="text-lg font-semibold text-foreground">Crear/Editar Cita</h3>
+      <button
+        class="text-muted-foreground hover:text-foreground"
+        (click)="onClose()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6 mt-4">
+      <!-- Doctor -->
+      <div class="relative">
+        <select
+          id="doctorId"
+          class="peer block"
+          placeholder=" "
+          formControlName="doctorId"
+          (change)="loadDoctorAvailability()"
+        >
+          <option value="">Seleccione doctor</option>
+          <option *ngFor="let doctor of doctors" [value]="doctor.id">
+            {{ doctor.user.name }}
+          </option>
+        </select>
+        <label
+          for="doctorId"
+          class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary"
+        >
+          Doctor
+        </label>
+        <div
+          *ngIf="submitted && f['doctorId'].errors"
+          class="text-destructive text-sm mt-1"
+        >
+          Campo requerido
+        </div>
+      </div>
+
+      <!-- Paciente -->
+      <div class="relative">
+        <select
+          id="patientId"
+          class="peer block"
+          placeholder=" "
+          formControlName="patientId"
+        >
+          <option value="">Seleccione paciente</option>
+          <option *ngFor="let patient of patients" [value]="patient.id">
+            {{ patient.name }}
+          </option>
+        </select>
+        <label
+          for="patientId"
+          class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary"
+        >
+          Paciente
+        </label>
+        <div
+          *ngIf="submitted && f['patientId'].errors"
+          class="text-destructive text-sm mt-1"
+        >
+          Campo requerido
+        </div>
+      </div>
+
+      <div class="calendar-container min-w-[750px] overflow-x-auto">
+        <h3>Seleccione un horario disponible</h3>
+        <!-- <mwl-calendar-week-view
+          [viewDate]="viewDate"
+          [events]="events"
+          [hourSegmentHeight]="40"
+          [dayStartHour]="7"
+          [dayEndHour]="18"
+          (eventClicked)="onEventClicked($event.event)"
+        ></mwl-calendar-week-view> -->
+        <ng-container *ngIf="events.length > 0; else noAvailability">
+          <mwl-calendar-week-view
+            [viewDate]="viewDate"
+            [events]="events"
+            [hourSegmentHeight]="40"
+            [dayStartHour]="7"
+            [dayEndHour]="22"
+            (eventClicked)="onTimeSelected($event.event)"
+          ></mwl-calendar-week-view>
+        </ng-container>
+        <ng-template #noAvailability>
+          <p class="text-muted">
+            No hay horarios disponibles para este doctor.
+          </p>
+        </ng-template>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-end space-x-3 mt-4">
+        <button
+          type="button"
+          class="px-4 py-2 bg-muted text-muted-foreground rounded-md hover:bg-muted-foreground hover:text-background"
+          (click)="onClose()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary-foreground hover:text-foreground"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

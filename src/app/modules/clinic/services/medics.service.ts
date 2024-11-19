@@ -1,21 +1,25 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { CreateDoctor, Doctor } from '../interfaces/medic.interface';
+import { Doctor, FilledForms, FormTemplate, FormTemplateApi } from '../interfaces/medic.interface';
+import { ApiService } from '../../../core/services/api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
+  useFactory: (http: HttpClient) => new ApiService(http, 'doctor'),
+  deps: [HttpClient],
 })
-export class MedicService {
-  private baseUrl: string = environment.baseUrl + '/doctor';
-  constructor(private http: HttpClient) { }
+export class MedicService extends ApiService<Doctor> { }
 
-  getAllDoctor(): Observable<ApiResponse<Doctor[]>> {
-    return this.http.get<ApiResponse<Doctor[]>>(`${this.baseUrl}`);
-  }
+@Injectable({
+  providedIn: 'root',
+  useFactory: (http: HttpClient) => new ApiService(http, 'form-templates'),
+  deps: [HttpClient],
+})
+export class FormTemplatesService extends ApiService<FormTemplateApi> { }
 
-  createDoctor(doctor: CreateDoctor): Observable<ApiResponse<Doctor>> {
-    return this.http.post<ApiResponse<Doctor>>(`${this.baseUrl}`, doctor);
-  }
-}
+@Injectable({
+  providedIn: 'root',
+  useFactory: (http: HttpClient) => new ApiService(http, 'filled-forms'),
+  deps: [HttpClient],
+})
+export class FilledFormsService extends ApiService<FilledForms> { }

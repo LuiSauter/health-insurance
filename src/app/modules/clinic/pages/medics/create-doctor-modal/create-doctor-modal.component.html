@@ -2,7 +2,7 @@
   class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 overflow-hidden"
 >
   <div
-    class="bg-background rounded-lg shadow-lg w-full max-w-lg p-6 overflow-y-auto max-h-[90vh] animate-fade-in-up"
+    class="scrollbar-thumb-rounded scrollbar-track-rounded scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted bg-background rounded-lg shadow-lg w-full max-w-3xl p-6 overflow-y-auto max-h-[90vh] animate-fade-in-up"
   >
     <div class="flex justify-between items-center border-b pb-3 border-border">
       <h3 class="text-lg font-semibold text-foreground">Crear Médico</h3>
@@ -14,20 +14,22 @@
       </button>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4 mt-4">
-      <div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6 mt-4">
+      <!-- Número de Licencia -->
+      <div class="relative">
+        <input
+          type="text"
+          id="licenseNumber"
+          class="peer block"
+          placeholder=" "
+          formControlName="licenseNumber"
+        />
         <label
           for="licenseNumber"
-          class="block text-sm font-medium text-foreground"
+          class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary"
         >
           Número de Licencia
         </label>
-        <input
-          id="licenseNumber"
-          formControlName="licenseNumber"
-          type="text"
-          class="mt-1 block w-full rounded-md border border-border bg-background text-foreground shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
-        />
         <div
           *ngIf="submitted && f['licenseNumber'].errors"
           class="text-destructive text-sm mt-1"
@@ -36,22 +38,25 @@
         </div>
       </div>
 
-      <div>
-        <label
-          for="specialtyId"
-          class="block text-sm font-medium text-foreground"
-        >
-          Especialidad
-        </label>
+      <!-- Especialidad -->
+      <div class="relative">
         <select
           id="specialtyId"
+          class="peer block"
+          placeholder=" "
           formControlName="specialtyId"
-          class="mt-1 block w-full rounded-md border border-border bg-background text-foreground shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
         >
+          <option value="">Seleccione especialidad</option>
           <option *ngFor="let specialty of specialties" [value]="specialty.id">
             {{ specialty.name }}
           </option>
         </select>
+        <label
+          for="specialtyId"
+          class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary"
+        >
+          Especialidad
+        </label>
         <div
           *ngIf="submitted && f['specialtyId'].errors"
           class="text-destructive text-sm mt-1"
@@ -60,19 +65,25 @@
         </div>
       </div>
 
-      <div>
-        <label for="userId" class="block text-sm font-medium text-foreground">
-          Usuario
-        </label>
+      <!-- Usuario -->
+      <div class="relative">
         <select
           id="userId"
+          class="peer block"
+          placeholder=" "
           formControlName="userId"
-          class="mt-1 block w-full rounded-md border border-border bg-background text-foreground shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
         >
+          <option value="">Seleccione usuario</option>
           <option *ngFor="let user of users" [value]="user.id">
             {{ user.name }}
           </option>
         </select>
+        <label
+          for="userId"
+          class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary"
+        >
+          Usuario
+        </label>
         <div
           *ngIf="submitted && f['userId'].errors"
           class="text-destructive text-sm mt-1"
@@ -81,48 +92,83 @@
         </div>
       </div>
 
-      <div formArrayName="scheduleIds">
-        <div
-          *ngFor="let schedule of scheduleIds.controls; let i = index"
-          [formGroupName]="i"
-          class="space-y-2"
+      <!-- Intervalo de citas -->
+      <!-- <div class="relative">
+        <select
+          id="interval"
+          class="peer block"
+          placeholder=" "
+          formControlName="interval"
+          (change)="generateAvailableTimeSlots()"
         >
-          <label class="block text-sm font-medium text-foreground"
-            >Horario</label
+          <option value="15">15 minutos</option>
+          <option value="30">30 minutos</option>
+          <option value="60">1 hora</option>
+        </select>
+        <label
+          for="interval"
+          class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary"
+        >
+          Intervalo de Citas
+        </label>
+      </div>
+      <table class="table-auto w-full mt-4">
+        <thead>
+          <tr>
+            <th class="text-foreground">Horas</th>
+            <th *ngFor="let day of daysOfWeek" class="text-foreground px-2">
+              {{ day }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let slot of availableTimeSlots"
+            class="border-b border-dashed border-border hover:bg-card"
           >
-          <div class="flex space-x-2">
-            <select
-              formControlName="dayOfWeek"
-              class="block w-1/3 rounded-md border border-border bg-background text-foreground shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+            <td
+              class="text-muted-foreground text-right pr-4 whitespace-nowrap py-2 md:py-0"
             >
-              <option *ngFor="let day of daysOfWeek" [value]="day">
-                {{ day }}
-              </option>
-            </select>
-            <input
-              formControlName="startTime"
-              type="time"
-              class="block w-1/3 rounded-md border border-border bg-background text-foreground shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
-            />
-            <input
-              formControlName="endTime"
-              type="time"
-              class="block w-1/3 rounded-md border border-border bg-background text-foreground shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
-            />
-          </div>
-          <button
-            type="button"
-            class="text-sm text-destructive"
-            (click)="removeSchedule(i)"
-          >
-            Eliminar
-          </button>
+              {{ slot.time }}
+            </td>
+            <td *ngFor="let day of daysOfWeek" class="text-center">
+              <input
+                type="checkbox"
+                [(ngModel)]="slot.selected[day]"
+                [ngModelOptions]="{ standalone: true }"
+                class="checkbox rounded border-gray-300"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table> -->
+      <!-- Días de la semana -->
+      <div class="space-y-4">
+        <div
+          *ngFor="let day of daysOfWeek"
+          class="grid grid-cols-1 md:grid-cols-[100px_1fr_1fr] space-x-4 gap-4 items-center"
+        >
+          <label class="text-foreground w-24">{{ day }}</label>
+          <input
+            type="time"
+            [(ngModel)]="scheduleForm[day].startTime"
+            [ngModelOptions]="{ standalone: true }"
+            class="block w-full"
+            placeholder="Hora de inicio"
+            step="1800"
+          />
+          <input
+            type="time"
+            [(ngModel)]="scheduleForm[day].endTime"
+            [ngModelOptions]="{ standalone: true }"
+            class="block w-full"
+            placeholder="Hora de fin"
+            step="1800"
+          />
         </div>
-        <button type="button" class="mt-2 text-primary" (click)="addSchedule()">
-          Añadir horario
-        </button>
       </div>
 
+      <!-- Botones -->
       <div class="flex justify-end space-x-3 mt-4">
         <button
           type="button"

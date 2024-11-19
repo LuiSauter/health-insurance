@@ -10,7 +10,22 @@
         }}</span>
       </div>
     </div>
+    <div>
+      <button
+        (click)="openCreateSpecialtyModal()"
+        class="bg-primary px-3 py-2 rounded-md text-primary-foreground text-sm font-semibold"
+      >
+        Agregar
+      </button>
+    </div>
   </div>
+
+  <app-create-specialty-modal
+    *ngIf="showModal"
+    [specialty]="specialty"
+    (closeModal)="closeCreateSpecialtyModal()"
+    (specialtyCreated)="addSpecialty($event)"
+  ></app-create-specialty-modal>
 
   <!-- end Header -->
 
@@ -53,6 +68,7 @@
               <tr>
                 <th class="py-3 text-left">Nombre</th>
                 <th class="py-3 text-left">Descripción</th>
+                <th class="py-3 text-left">Acciones</th>
               </tr>
             </thead>
             <!--end Table head-->
@@ -72,6 +88,14 @@
                   <span class="text-sm text-muted-foreground"
                     >{{ item.description }}
                   </span>
+                </td>
+                <td class="py-2 pl-2 text-left">
+                  <button
+                    class="text-primary hover:underline"
+                    (click)="onEdit(item)"
+                  >
+                    Editar
+                  </button>
                 </td>
               </tr>
             </tbody>

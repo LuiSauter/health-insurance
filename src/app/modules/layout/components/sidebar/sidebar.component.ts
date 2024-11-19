@@ -8,6 +8,9 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NgClass, NgIf } from '@angular/common';
 import { Theme } from '../../../../core/models/theme.model';
 import { environment } from '../../../../../environments/environment';
+import { Store } from '@ngxs/store';
+import { IUser } from '../../../users/interfaces';
+import { GlobalState } from '../../../../state/global';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,10 +22,12 @@ import { environment } from '../../../../../environments/environment';
 export class SidebarComponent implements OnInit {
   public appJson: any = packageJson;
   public appName = environment.appName
+  public user: IUser | null = null;
+  constructor(public menuService: MenuService, private store: Store) { }
 
-  constructor(public menuService: MenuService) { }
-
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.user = this.store.selectSignal(GlobalState.getUser)()
+  }
 
   public toggleSidebar() {
     this.menuService.toggleSidebar();

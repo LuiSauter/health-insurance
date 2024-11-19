@@ -1,0 +1,77 @@
+<div
+  class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 overflow-hidden"
+>
+  <div
+    class="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 overflow-y-auto max-h-[90vh]"
+  >
+    <div class="flex justify-between items-center border-b pb-3">
+      <h3 class="text-lg font-semibold">Rellenar Formulario</h3>
+      <button
+        class="text-xl text-gray-500 hover:text-red-500"
+        (click)="onClose()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div *ngFor="let field of formTemplates" class="mb-4">
+        <label
+          [for]="field.formName"
+          class="block text-sm font-medium text-gray-700"
+        >
+          {{ field.formName }}
+        </label>
+
+        <!-- <ng-container [ngSwitch]="field.type">
+          <input
+            *ngSwitchCase="'text'"
+            type="text"
+            [formControlName]="field.name"
+            class="mt-1 block w-full border-gray-300 rounded-md"
+          />
+          <input
+            *ngSwitchCase="'date'"
+            type="date"
+            [formControlName]="field.name"
+            class="mt-1 block w-full border-gray-300 rounded-md"
+          />
+          <textarea
+            *ngSwitchCase="'textarea'"
+            [formControlName]="field.name"
+            class="mt-1 block w-full border-gray-300 rounded-md"
+          ></textarea>
+          <input
+            *ngSwitchCase="'number'"
+            type="number"
+            [formControlName]="field.name"
+            class="mt-1 block w-full border-gray-300 rounded-md"
+          />
+        </ng-container> -->
+
+        <!-- <div
+          *ngIf="form.get('filledData')?.get(field.name)?.invalid && submitted"
+          class="text-red-500 text-sm"
+        >
+          Campo requerido
+        </div> -->
+      </div>
+
+      <div class="flex justify-end mt-6 space-x-4">
+        <button
+          type="button"
+          class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+          (click)="onClose()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Doctor, Specialities } from '../interfaces/medic.interface';
+import { Specialities } from '../interfaces/medic.interface';
+import { ApiService } from '../../../core/services/api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
+  useFactory: (http: HttpClient) => new ApiService(http, 'specialty'),
+  deps: [HttpClient],
 })
-export class SpecialitiesService {
-  private baseUrl: string = environment.baseUrl + '/specialty';
-  constructor(private http: HttpClient) { }
+export class SpecialityService extends ApiService<Specialities> { }
 
-  getAllSpecialties(): Observable<ApiResponse<Specialities[]>> {
-    return this.http.get<ApiResponse<Specialities[]>>(`${this.baseUrl}`);
-  }
-}

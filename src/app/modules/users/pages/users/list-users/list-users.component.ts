@@ -16,8 +16,8 @@ export class ListUsersComponent {
   constructor(private userService: UsersService) { }
 
   ngOnInit(): void {
-    this.userService.getAllUsers().subscribe((users) => {
-      this.users = users.data;
+    this.userService.getAll().subscribe((response) => {
+      this.users = response.data;
     });
   }
 }

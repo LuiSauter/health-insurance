@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  baseUrl: 'https://backend-medical-insurance.onrender.com/api',
+  baseUrl: 'https://backend-medical-insurance-production.up.railway.app/api',
   baseSocket: 'http://localhost:3001',
   production: false,
   appName: 'Medical Insurance',

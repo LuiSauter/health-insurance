@@ -1,0 +1,106 @@
+<app-create-filled-form
+  *ngIf="showModal"
+  [appointmentId]="appointment.id"
+  [patientId]="appointment.patient.id"
+  (closeModal)="closeCreateModal()"
+></app-create-filled-form>
+
+<div class="p-5 bg-background">
+  <!-- Header -->
+  <div class="flex justify-between items-center border-b pb-3">
+    <h2 class="text-2xl font-semibold">
+      {{ "Consulta de " + appointment.patient.name }}
+    </h2>
+    <div class="bg-primary rounded-lg px-3 py-1 text-primary-foreground">
+      {{ appointment.status }}
+    </div>
+  </div>
+
+  <!-- General Info -->
+  <div class="mt-4 grid grid-cols-2 gap-4 text-sm mb-5">
+    <div><strong>Paciente:</strong> {{ appointment.patient.name }}</div>
+    <div><strong>Teléfono:</strong> {{ appointment.patient.phone }}</div>
+    <div><strong>Médico:</strong> {{ appointment.doctor.user.name }}</div>
+    <div>
+      <strong>Fecha:</strong>
+      {{ formatAppointmentDate(appointment.appointmentDate) }}
+    </div>
+    <div><strong>Nivel de urgencia:</strong> Normal</div>
+    <div><strong>Finalidad:</strong> Consulta</div>
+    <div><strong>Tiempo de consulta:</strong> 00:00</div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="md:col-span-3 xl:col-span-4 border-t">
+    <div class="flex-col rounded-lg bg-background px-4 py-4 sm:flex-row">
+      <div class="relative overflow-x-auto">
+        <table class="w-full table-auto">
+          <!-- Table Head -->
+          <thead class="text-xs uppercase text-foreground">
+            <tr>
+              <th class="py-3 text-left">Formulario</th>
+              <th class="py-3 text-left">Fecha</th>
+            </tr>
+          </thead>
+          <!-- End Table Head -->
+          <!-- Table Body -->
+          <tbody>
+            <tr
+              *ngFor="let item of filledForms"
+              class="border-b border-dashed border-border hover:bg-card"
+            >
+              <td class="py-2 pl-2 text-left">
+                <span class="text-sm text-muted-foreground">
+                  {{ item.formTemplate.formName }}
+                </span>
+              </td>
+              <td class="py-2 pl-2 text-left whitespace-nowrap">
+                <span class="text-sm text-muted-foreground whitespace-nowrap">
+                  {{ formatAppointmentDate(item.dateFilled) }}
+                </span>
+              </td>
+              <!-- <td class="py-2 pl-2 text-left">
+                <button
+                  class="text-primary hover:underline"
+                  (click)="onEdit(appointment)"
+                >
+                  Ver
+                </button>
+                <a
+                  class="text-primary hover:underline"
+                  [routerLink]="['/consultas/citas', appointment.id]"
+                >
+                  Ver
+                </a>
+              </td> -->
+            </tr>
+          </tbody>
+          <!-- End Table Body -->
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="mt-6 flex justify-end space-x-4">
+    <button
+      class="bg-primary px-3 py-2 rounded-md text-primary-foreground text-sm font-semibold"
+      (click)="openCreateModal()"
+    >
+      Agregar
+    </button>
+    <button
+      class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+    >
+      En la Consulta
+    </button>
+    <button
+      class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+    >
+      Crear Factura
+    </button>
+    <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+      Anular
+    </button>
+  </div>
+</div>

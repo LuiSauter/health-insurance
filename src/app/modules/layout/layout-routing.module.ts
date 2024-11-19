@@ -23,6 +23,12 @@ const routes: Routes = [
     component: LayoutComponent,
     loadChildren: () => import('../clinic/clinic.module').then((m) => m.ClinicModule)
   },
+  {
+    path: 'consultas',
+    canActivate: [AuthGuard],
+    component: LayoutComponent,
+    loadChildren: () => import('../consult/consult.module').then((m) => m.ConsultModule)
+  },
   { path: '**', redirectTo: 'error/404' },
 ];
 

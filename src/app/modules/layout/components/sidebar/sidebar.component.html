@@ -5,16 +5,17 @@
   <div class="px-4">
     <!-- Logo -->
     <div class="relative h-10">
-      <div class="flex items-center" *ngIf="menuService.showSideBar">
-        <a
-          (click)="toggleSidebar()"
-          class="flex cursor-pointer items-center justify-center rounded bg-primary p-2 focus:outline-none focus:ring-1"
-        >
-          <svg-icon src="assets/icons/logo.svg"> </svg-icon>
-        </a>
-        <b class="ml-1 pl-2 text-sm font-bold text-foreground">
+      <div class="flex flex-col" *ngIf="menuService.showSideBar">
+        <b class="text-sm font-bold text-foreground">
           {{ appName }}
         </b>
+        <span class="text-muted-foreground text-sm">
+          {{
+            user?.role?.name?.toLowerCase()?.includes("adm")
+              ? "Administrador"
+              : user?.branch?.name
+          }}
+        </span>
       </div>
       <button
         (click)="toggleSidebar()"

@@ -1,0 +1,171 @@
+<div
+  class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 overflow-hidden"
+>
+  <div
+    class="scrollbar-thumb-rounded scrollbar-track-rounded scrollbar-thin scrollbar-track-transparent scrollbar-thumb-muted bg-background rounded-lg shadow-lg w-full max-w-6xl p-6 overflow-y-auto max-h-[90vh] animate-fade-in-up"
+  >
+    <div class="flex justify-between items-center border-b pb-3 border-border">
+      <h3 class="text-lg font-semibold text-foreground">
+        {{ formTemplate?.id ? "Editar Formulario" : "Crear Formulario" }}
+      </h3>
+      <button
+        class="text-muted-foreground hover:text-foreground text-2xl"
+        (click)="onClose()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="relative">
+        <input
+          type="text"
+          id="formName"
+          class="peer block"
+          placeholder=" "
+          formControlName="formName"
+        />
+        <label
+          for="formName"
+          class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground"
+        >
+          Nombre del formulario
+        </label>
+        <div
+          *ngIf="submitted && form.get('formName')?.errors"
+          class="text-destructive text-sm mt-1"
+        >
+          Campo requerido
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-[180px_1fr] gap-4 mt-4">
+        <div class="p-4 rounded-lg shadow-sm">
+          <h4 class="font-semibold text-foreground mb-2">
+            Componentes Disponibles
+          </h4>
+          <div class="space-y-2">
+            <button
+              *ngFor="let component of availableComponents"
+              type="button"
+              class="w-full text-left px-3 py-2 bg-primary/10 rounded-md hover:bg-primary/20"
+              (click)="addField(component)"
+            >
+              {{ component.label }}
+            </button>
+          </div>
+        </div>
+
+        <div
+          formArrayName="fields"
+          class="p-4 rounded-lg shadow-sm flex flex-col gap-2"
+        >
+          <div
+            *ngFor="let field of fields.controls; let i = index"
+            [formGroupName]="i"
+            class="relative border border-dashed p-4 rounded-lg grid md:grid-cols-[1fr_1fr_90px_1fr] gap-4"
+          >
+            <div class="relative">
+              <label
+                for="name-{{ i }}"
+                class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary"
+                >Nombre</label
+              >
+              <input
+                id="name-{{ i }}"
+                type="text"
+                formControlName="name"
+                class="w-full"
+                placeholder=" "
+              />
+            </div>
+
+            <div class="relative">
+              <label
+                for="label-{{ i }}"
+                class="absolute top-2 left-1 z-10 origin-[0] -translate-y-4 scale-95 transform bg-background px-2 text-sm text-muted-foreground duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2 peer-focus:text-primary"
+                >Label</label
+              >
+              <input
+                id="label-{{ i }}"
+                type="text"
+                formControlName="label"
+                class="w-full"
+                placeholder=" "
+              />
+            </div>
+
+            <div>
+              <label class="text-xs">
+                <input
+                  type="checkbox"
+                  formControlName="required"
+                  [defaultValue]="false"
+                />
+                Requerido
+              </label>
+            </div>
+            <div>
+              <!-- mostrar el tipo del input seleccionado -->
+              <div
+                class="text-muted-foreground flex flex-row gap-2 items-center"
+              >
+                {{ field.get("type")?.value }}
+                <!-- add field.get("type")?.value on inputs -->
+                <input
+                  [type]="field.get('type')?.value"
+                  class="h-5"
+                  [value]="
+                    field.get('type')?.value === 'number' ? 123 : 'Ejemplo 123'
+                  "
+                  [disabled]="true"
+                />
+              </div>
+              <div>
+                <input type="text" formControlName="type" class="hidden" />
+              </div>
+            </div>
+
+            <!-- <div
+              *ngIf="
+                field.get('type')?.value === 'select' ||
+                field.get('type')?.value === 'radio'
+              "
+            >
+              <label>Opciones</label>
+              <textarea
+                formControlName="options"
+                class="w-full p-2"
+                placeholder="Opciones separadas por coma"
+              ></textarea>
+            </div> -->
+
+            <button
+              type="button"
+              (click)="removeField(i)"
+              class="text-destructive absolute top-1 right-1 text-2xl"
+            >
+              &times;
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-3 mt-4">
+        <button
+          type="button"
+          class="px-4 py-2 bg-muted text-muted-foreground rounded-md hover:bg-muted-foreground hover:text-background"
+          (click)="onClose()"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary-foreground hover:text-foreground"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
