@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 
@@ -8,6 +8,7 @@ import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { NgxsModuleOptions, NoopNgxsExecutionStrategy, provideStore } from '@ngxs/store';
 import { GlobalState } from './state/global';
 import { environment } from '../environments/environment';
+// import { provideServiceWorker } from '@angular/service-worker';
 
 export const ngxsConfig: NgxsModuleOptions = {
   developmentMode: !environment.production,
@@ -28,6 +29,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([AuthInterceptor])),
     provideAnimationsAsync(),
-    provideStore([GlobalState], ngxsConfig),
+    provideStore([GlobalState], ngxsConfig)
   ]
 };
