@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://backend-medical-insurance-production.up.railway.app/api',
+  baseUrl: 'https://sea-lion-app-c87wn.ondigitalocean.app/api',
   appName: 'Medical Insurance',
 };
